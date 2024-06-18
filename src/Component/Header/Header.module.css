@@ -53,6 +53,7 @@
 padding: 10px;
 font-weight: bold;
 outline: 1px solid white;
+
 }
 .search select{
     border:none;
@@ -67,6 +68,7 @@ outline: 1px solid white;
     padding: 7PX;
     background: #febd69;
     color: #1a1a1a;
+    box-sizing: content-box;
 }
 .search svg:hover{
     background-color: #d49644;

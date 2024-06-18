@@ -42,7 +42,7 @@ const Header = () => {
               </select>
               <input type="text" id="" />
 
-              <SearchIcon size={38} />
+              <SearchIcon  />
             </div>
             {/* {right side link} */}
             <div className={classes.order}>
