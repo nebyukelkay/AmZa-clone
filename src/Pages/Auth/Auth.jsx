@@ -1,6 +1,6 @@
 import React, { useState, useContext} from 'react';
 import classes from './signUp.module.css';
-import { Link ,useNavigate} from 'react-router-dom';
+import { Link ,useNavigate,useLocation} from 'react-router-dom';
 import {auth} from "../../Utility/firebase"
 import { signInWithEmailAndPassword,createUserWithEmailAndPassword } from 'firebase/auth';
 import {DataContext} from "../../Component/DataProvider/Dataprovider"
@@ -15,11 +15,12 @@ function Auth() {
 
   const [{user},dispatch]= useContext(DataContext);
   const navigate= useNavigate();
+  const navStateData= useLocation();
 
   // console.log(user)
   const authhandler= async(e)=>{
 e.preventDefault();
-console.log(e.target.name);
+// console.log(e.target.name);
 if(e.target.name=="signin"){
   setLoading({ ...loading,signIn:true})
     signInWithEmailAndPassword(auth,email,password).then((userInfo)=>{
@@ -28,7 +29,7 @@ if(e.target.name=="signin"){
         user:userInfo.user
       })
       setLoading({...loading,signIn:false})
-      navigate("/")
+      navigate(navStateData?.state?.redirect || "/")
     }).catch((err)=>{
       setError(err.message)
       setLoading({...loading,signIn:false})
@@ -42,7 +43,7 @@ createUserWithEmailAndPassword(auth,email,password).then((userInfo)=>{
     user:userInfo.user
   })
   setLoading({...loading,signUp:false})
-  navigate("/")
+  navigate(navStateData?.state?.redirect || "/")
 }).catch((err)=>{
   setError(err.message)
   setLoading({...loading,signUp:false})
@@ -60,6 +61,13 @@ createUserWithEmailAndPassword(auth,email,password).then((userInfo)=>{
       </Link>
       <div className={classes.login_container}>
         <h1>Sign In</h1>
+        {
+          navStateData?.state?.msg && (
+            <small style={{padding:"5px",textAlign:"center",color:"red",fontWeight:"bold"}}>
+              {navStateData?.state?.msg}
+            </small>
+          )
+        }
         <form action="">
 
           <div>
@@ -77,7 +85,7 @@ createUserWithEmailAndPassword(auth,email,password).then((userInfo)=>{
              </button>
         </form>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem similique aliquam sit molestias aut ipsa saepe nobis neque itaque assumenda quia consequuntur, mollitia nihil minus rem harum magni sapiente vitae?
+        By continuing, you agree to Amazon's Conditions of Use and Privacy Notice.
         </p>
         <button type='submit' onClick={authhandler} name='signup' className={classes.login_registerButton}>
           
